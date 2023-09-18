@@ -7,9 +7,14 @@
 
 int main()
 {
+    
+    const int SIMPLE = 0;
+    const int ALL = 1;
+    const int PERCENT = 2;
+    
     std::vector<int> simplei;
     std::vector<int> simplej;
-    const int boundNumbers = 100;
+    const int boundNumbers = 16;
     int columns = sqrt(boundNumbers);
     int rows = columns;
     int numOfElemInLastRow = 0;
@@ -104,31 +109,45 @@ int main()
         }
         std::cout << std::endl;
     }
-    std::vector<int> diag;
+    std::vector<std::vector<int>> diag;
     for (int i = 0; i < columns; i++) {
-        diag.push_back(0);
+        std::vector<int> stroke {0, 0};
+        diag.push_back(stroke);
         if ((i - 1) >= 0) {
             int j = 0;
             int curi = i;
             while (j <= i) {
-                diag[i] += bools[curi][j];
+                if (!(bools[curi][j] == -1)) {
+                    diag[i][SIMPLE] += bools[curi][j];
+                    diag[i][ALL]++;
+                }
+                
                 j++;
                 curi--;
             }
             
         }
         else {
-            diag[i] = bools[i][0];
+            if (!(bools[i][0] == -1)) {
+                diag[i][SIMPLE] = bools[i][0];
+                diag[i][ALL]++;
+            }
+            
         }
         std::cout << std::endl;
     }
     for (int j = 1; j <= columns-1; j++) {
-        diag.push_back(0);
+        std::vector<int> stroke{ 0, 0 };
+        diag.push_back(stroke);
         int i = columns - 1;
         int curj = j;
             int curi = i;
             while (curj <= i) {
-                diag[i+j] += bools[curi][curj];
+                if (!(bools[curi][curj] == -1)) {
+                    diag[i + j][SIMPLE] += bools[curi][curj];
+                    diag[i + j][ALL]++;
+                }
+                
                 curj++;
                 curi--;
             }
@@ -136,6 +155,45 @@ int main()
     }
     std::cout << "diag" << std::endl;
     for (int i = 0; i < diag.size(); i++) {
-        std::cout << diag[i] << std::endl;
+        std::cout << diag[i][0] << std::endl;
+    }
+
+    std::vector<std::vector<int>> diagRight;
+    for (int i = 0; i < columns; i++) {
+        std::vector<int> stroke{ 0, 0};
+        diagRight.push_back(stroke);
+        int curj = 0;
+        int curi = i;
+        while (curj  < columns - i  ) {
+            if (!(bools[curi][curj] == -1)) {
+                diagRight[i][SIMPLE] += bools[curi][curj];
+                diagRight[i][ALL]++;
+            }
+            
+            curi++;
+            curj++;
+
+        }
+        
+    }
+    for (int j = 1; j < columns; j++) {
+        std::vector<int> stroke{ 0, 0 };
+        diagRight.insert(diagRight.begin(), stroke);
+        int curj = j;
+        int i = 0;
+        while (curj < columns) {
+            if (!(bools[i][curj] == -1)) {
+                diagRight[0][SIMPLE] += bools[i][curj];
+                diagRight[0][ALL]++;
+            }
+            
+            curj++;
+            i++;
+        }
+    }
+   
+    std::cout << "diagRight" << std::endl;
+    for (int i = 0; i < diagRight.size(); i++) {
+        std::cout << diagRight[i][0] << std::endl;
     }
 }
