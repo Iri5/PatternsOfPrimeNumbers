@@ -140,21 +140,21 @@ void MainFunction(void) {
 		//	Tests();
 		//}
 
-		inputType = AskInput();
+		//inputType = AskInput();
 
-		if (inputType == InputType::FILE) {
-			std::cout << "¬вод текста" << std::endl;
-			ReadFromFile(size);
-			std::cout << "»сходный текст:" << std::endl;
-			std::cout << size << std::endl;
-		}
-		else {
+		//if (inputType == InputType::FILE) {
+			//std::cout << "¬вод текста" << std::endl;
+			//ReadFromFile(size);
+			//std::cout << "»сходный текст:" << std::endl;
+			//std::cout << size << std::endl;
+		//}
+		//else {
 			std::cout << "¬ведите текст" << std::endl;
 			//text = KeyboardInput();
 			//getline(std::cin, size);
 			size = (GetInput<int>());
 			
-		}
+		//}
 		Simple cl(size);
 		cl.FillBool();
 		cl.FillRowAndStrokePercents();
@@ -162,6 +162,9 @@ void MainFunction(void) {
 		cl.CountPercentsToPrint();
 		cl.PrintPercents();
 		bools = cl.GetBools();
+		std::vector<std::vector<int>> rows_percent = cl.GetRowsPercent();
+		std::vector<std::vector<int>> cols_percent = cl.GetColsPercent();
+
 		/*result = MaxNumSequense(size);
 		std::cout << "ƒлина максимальной последовательности цифр:" << std::endl;
 		std::cout << result << std::endl;
@@ -171,10 +174,10 @@ void MainFunction(void) {
 			wantSave = AskSaveInput();
 			if (wantSave == Menu::YES) {
 				std::cout << "—охранение исходного текста" << std::endl;
-				WriteInFile(size);
+				WriteInFile(bools, size, rows_percent, cols_percent);
 			}
 		}
-		
+		/*
 		wantSave = AskSaveResult();
 		if (wantSave == Menu::YES) {
 
@@ -185,7 +188,16 @@ void MainFunction(void) {
 				std::cout << "¬ведите новое им€ файла" << std::endl;
 				filePath = outputSaveFile.RewriteName();
 			}
-			wantRewrite = AskRewriteFile(filePath);
+			/// <summary>
+			while (outputSaveFile.FileReadOnly()) {
+				std::cout << "¬ведите новое им€ файла" << std::endl;
+				filePath = outputSaveFile.RewriteName();
+			}
+			FileWork file(filePath);
+			file.Output(bools, size, rows_percent, cols_percent);*/
+			/// </summary>
+			/// <param name=""></param>
+			/*wantRewrite = AskRewriteFile(filePath);
 			if (wantRewrite == Menu::YES) {
 				std::string newFilePath = filePath;
 				FileWork newOutputSave(newFilePath);
@@ -198,7 +210,7 @@ void MainFunction(void) {
 					}
 				}
 				FileWork file(newFilePath);
-				file.Output(bools, size);
+				file.Output(bools, size, rows_percent, cols_percent);
 			}
 			else {
 				while (outputSaveFile.FileReadOnly()) {
@@ -206,11 +218,11 @@ void MainFunction(void) {
 					filePath = outputSaveFile.RewriteName();
 				}
 				FileWork file(filePath);
-				file.Output(bools, size);
-			}
+				file.Output(bools, size, rows_percent, cols_percent);
+			}*/
 
-
-		}
+		
+		//}
 		
 		wantContinue = AskRepeat();
 	} while (wantContinue == Menu::YES);

@@ -84,12 +84,12 @@ bool FileWork::FileReadOnly(void) const {
 	}
 }
 
-void FileWork::Output(int** bools, int size) {
+void FileWork::Output(int** bools, int size, std::vector<std::vector<int>> m_rows_percent, std::vector<std::vector<int>> m_cols_percent) {
 	std::ofstream outputFile;
 	outputFile.open(m_path);
-	outputFile << "Исходный текст:" << std::endl;
+	outputFile << "Размер матрицы:" << std::endl;
 	outputFile << size << std::endl;
-	outputFile << "Количество символов в самой длинной последовательности цифр:" << std::endl;
+	outputFile << std::endl;
 	outputFile << size << std::endl;
 	for (int i = 0; i < size; i++) {
 		for (int j = 0; j < size; j++) {
@@ -101,6 +101,16 @@ void FileWork::Output(int** bools, int size) {
 			}
 		}
 		outputFile << std::endl;
+	}
+	outputFile << std::endl;
+	outputFile << "Уравнения прямых с наибольшим количеством простых чисел" << std::endl;
+	for (int i = 0; i < m_rows_percent.size(); i++) {
+
+		outputFile << "y = " << -m_rows_percent[i][0] << "\t" << m_rows_percent[i][1] << " %" << std::endl;
+	}
+	for (int i = 0; i < m_cols_percent.size(); i++) {
+
+		outputFile << "x = " << m_cols_percent[i][0] << "\t" << m_cols_percent[i][1] << " %" << std::endl;
 	}
 	outputFile.close();
 }
@@ -157,7 +167,7 @@ bool FileWork::Input(int& size) {
 
 
 
-void WriteInFile(int& size) {
+void WriteInFile( int** bools, int size, std::vector<std::vector<int>> rows_percent, std::vector<std::vector<int>> cols_percent) {
 	std::string path;
 	Menu rewrite = Menu::YES;
 	std::cout << "Введите имя файла" << std::endl;
@@ -184,7 +194,7 @@ void WriteInFile(int& size) {
 				}
 			}
 			FileWork file(newFilePath);
-			file.SaveData(size);
+			file.Output(bools, size, rows_percent, cols_percent);
 		}
 		else {
 			while (inputSaveFile.FileReadOnly()) {
@@ -192,7 +202,7 @@ void WriteInFile(int& size) {
 				path = inputSaveFile.RewriteName();
 			}
 			FileWork file(path);
-			file.SaveData(size);
+			file.Output(bools, size, rows_percent, cols_percent);
 		}
 	}
 	else {
@@ -202,7 +212,7 @@ void WriteInFile(int& size) {
 			path = inputSaveFile.RewriteName();
 		}
 		FileWork file(path);
-		file.SaveData(size);
+		file.Output(bools, size, rows_percent, cols_percent);
 	}
 
 }

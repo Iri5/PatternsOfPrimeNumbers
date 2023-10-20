@@ -7,8 +7,12 @@
 int** Simple::GetArray() { return m_array; }
 int** Simple::GetBools() { return m_bools; }
 int* Simple::GetArSimple() { return m_arrSimple; };
+
 std::vector<std::vector<int>> Simple::GetRows() { return simpleRows; };
 std::vector<std::vector<int>> Simple::GetCols() { return simpleColumns; };
+
+std::vector<std::vector<int>> Simple::GetRowsPercent() { return m_rows_percent; };
+std::vector<std::vector<int>> Simple::GetColsPercent() { return m_cols_percent; };
 //std::vector<std::vector<int>> GetLeft() { return diagLeft; };
 //std::vector<std::vector<int>> GetRight() { return diagRight; };
 
@@ -114,6 +118,7 @@ void Simple::CountPercentsToPrint() {
 	}
 }
 void Simple::PrintPercents() {
+	std::cout << std::endl;
 	std::cout << "Уравнения прямых с наибольшим количеством простых чисел" << std::endl;
 	for (int i = 0; i < m_rows_percent.size(); i++) {
 		

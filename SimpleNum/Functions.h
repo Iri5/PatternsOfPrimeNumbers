@@ -23,6 +23,8 @@ public:
 	int* GetArSimple();
 	std::vector<std::vector<int>> GetRows();
 	std::vector<std::vector<int>> GetCols();
+	std::vector<std::vector<int>> GetRowsPercent();
+	std::vector<std::vector<int>> GetColsPercent();
 	//std::vector<std::vector<int>> GetLeft() { return diagLeft; };
 	//std::vector<std::vector<int>> GetRight() { return diagRight; };
 

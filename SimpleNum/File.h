@@ -14,13 +14,13 @@ public:
 	bool FileExist(void) const;
 	bool SaveFileNormal(void) const;
 	bool FileReadOnly() const;
-	void Output(int** bools, int result);
+	void Output(int** bools, int result, std::vector<std::vector<int>> m_rows_percent, std::vector<std::vector<int>> m_cols_percent);
 	void SaveData(int& size);
 	bool Input(int& usingText);
 };
 
 
-void WriteInFile(int& size);
+void WriteInFile(int** bools, int size, std::vector<std::vector<int>> rows_percent, std::vector<std::vector<int>> cols_percent);
 
 void ReadFromFile(int& usingText);
 
