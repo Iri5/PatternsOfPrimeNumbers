@@ -1,5 +1,9 @@
-#pragma once
-
+#ifndef FUNCTIONS_H
+#define FUNCTIONS_H
+#include <iostream>
+#include <vector>
+#include "math.h"
+#endif
 
 class Simple {
 private:

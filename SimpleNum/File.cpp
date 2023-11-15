@@ -3,7 +3,6 @@
 #include <filesystem>
 #include "file.h"
 
-
 FileWork::FileWork(std::string path) {
 	m_path = path;
 }
@@ -12,6 +11,13 @@ bool FileWork::NameForbidden(void) const {
 	try {
 		bool isNameNormal = false;
 		isNameNormal = std::filesystem::is_regular_file(m_path);
+		std::string txt = ".txt";
+		int index = m_path.find(txt);
+		if  (index != (m_path.length() - txt.length())){
+			std::cout << "Файл должен иметь расширение .txt" << std::endl;
+			return true;
+		}
+		//\w+\.txt$
 	}
 	catch (std::exception&) {
 		std::cout << "Недопустимое имя файла!" << std::endl;
@@ -83,7 +89,12 @@ bool FileWork::FileReadOnly(void) const {
 		return true;
 	}
 }
-
+void FileWork::OutputSize(int size) {
+	std::ofstream outputFile;
+	outputFile.open(m_path);
+	outputFile << size << std::endl;
+	outputFile.close();
+}
 void FileWork::Output(int** bools, int size, std::vector<std::vector<int>> m_rows_percent, std::vector<std::vector<int>> m_cols_percent) {
 	std::ofstream outputFile;
 	outputFile.open(m_path);
@@ -217,7 +228,55 @@ void WriteInFile( int** bools, int size, std::vector<std::vector<int>> rows_perc
 
 }
 
+void WriteInFileSize(int size) {
+	std::string path;
+	Menu rewrite = Menu::YES;
+	std::cout << "Введите имя файла" << std::endl;
+	path = GetInput<std::string>();
+	FileWork inputSaveFile(path);
+	while (!inputSaveFile.SaveFileNormal()) {
+		std::cout << "Введите новое имя файла" << std::endl;
+		path = inputSaveFile.RewriteName();
+	}
+	std::ifstream checkFile;
+	checkFile.open(path);
+	if (checkFile.is_open()) {
+		rewrite = AskRewriteFile(path);
+		checkFile.close();
+		if (rewrite == Menu::YES) {
+			std::string newFilePath = path;
+			FileWork newInputSave(newFilePath);
+			while (newFilePath == path) {
+				std::cout << "Введите новое имя файла:" << std::endl;
+				newFilePath = newInputSave.RewriteName();
+				while (!newInputSave.SaveFileNormal()) {
+					std::cout << "" << std::endl;
+					newFilePath = newInputSave.RewriteName();
+				}
+			}
+			FileWork file(newFilePath);
+			file.OutputSize(size);
+		}
+		else {
+			while (inputSaveFile.FileReadOnly()) {
+				std::cout << "Введите новое имя файла" << std::endl;
+				path = inputSaveFile.RewriteName();
+			}
+			FileWork file(path);
+			file.OutputSize( size);
+		}
+	}
+	else {
+		checkFile.close();
+		while (inputSaveFile.FileReadOnly()) {
+			std::cout << "Введите новое имя файла" << std::endl;
+			path = inputSaveFile.RewriteName();
+		}
+		FileWork file(path);
+		file.OutputSize(size);
+	}
 
+}
 
 void ReadFromFile(int& size) {
 	bool dataReaded = false;

@@ -4,7 +4,7 @@
 #include <string>
 #include <Windows.h>
 #include "menu.h"
-//#include "tests.h"
+#include "tests.h"
 #include "file.h"
 #include "Functions.h"
 
@@ -77,7 +77,7 @@ InputType AskInput(void) {
 }
 
 Menu AskSaveInput(void) {
-	std::cout << "Сохранить исходные данные в файл?" << std::endl;
+	std::cout << "Сохранить  данные в файл?" << std::endl;
 	std::cout << "1 - Да" << std::endl;
 	std::cout << "2 - Нет" << std::endl;
 	std::cout << "Ваш выбор:" << std::endl;
@@ -135,26 +135,26 @@ void MainFunction(void) {
 	int** bools;
 	do {
 		std::string filePath = "nothing";
-		//wantTests = AskTests();
-		//if (wantTests == Menu::YES) {
-		//	Tests();
-		//}
+		wantTests = AskTests();
+		if (wantTests == Menu::YES) {
+			Tests();
+		}
 
-		//inputType = AskInput();
+		inputType = AskInput();
 
-		//if (inputType == InputType::FILE) {
+		if (inputType == InputType::FILE) {
 			//std::cout << "Ввод текста" << std::endl;
-			//ReadFromFile(size);
-			//std::cout << "Исходный текст:" << std::endl;
-			//std::cout << size << std::endl;
-		//}
-		//else {
-			std::cout << "Введите текст" << std::endl;
+			ReadFromFile(size);
+			std::cout << "Исходный текст:" << std::endl;
+			std::cout << size << std::endl;
+		}
+		else {
+			std::cout << "Введите размерность матрицы" << std::endl;
 			//text = KeyboardInput();
 			//getline(std::cin, size);
 			size = (GetInput<int>());
 			
-		//}
+		}
 		Simple cl(size);
 		cl.FillBool();
 		cl.FillRowAndStrokePercents();
@@ -165,17 +165,18 @@ void MainFunction(void) {
 		std::vector<std::vector<int>> rows_percent = cl.GetRowsPercent();
 		std::vector<std::vector<int>> cols_percent = cl.GetColsPercent();
 
-		/*result = MaxNumSequense(size);
-		std::cout << "Длина максимальной последовательности цифр:" << std::endl;
-		std::cout << result << std::endl;
-		//тут вычисление*/
 
 		if (inputType != InputType::FILE) {
 			wantSave = AskSaveInput();
 			if (wantSave == Menu::YES) {
-				std::cout << "Сохранение исходного текста" << std::endl;
-				WriteInFile(bools, size, rows_percent, cols_percent);
+				std::cout << "Сохранение исходного размера матрицы " << std::endl;
+				WriteInFileSize(size);
 			}
+		}
+		wantSave = AskSaveResult();
+		if (wantSave == Menu::YES) {
+			std::cout << "Сохранение результатов " << std::endl;
+			WriteInFile(bools, size, rows_percent, cols_percent);
 		}
 		/*
 		wantSave = AskSaveResult();

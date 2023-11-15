@@ -13,8 +13,6 @@ std::vector<std::vector<int>> Simple::GetCols() { return simpleColumns; };
 
 std::vector<std::vector<int>> Simple::GetRowsPercent() { return m_rows_percent; };
 std::vector<std::vector<int>> Simple::GetColsPercent() { return m_cols_percent; };
-//std::vector<std::vector<int>> GetLeft() { return diagLeft; };
-//std::vector<std::vector<int>> GetRight() { return diagRight; };
 
 Simple::Simple(int size) {
 	m_size = size;
